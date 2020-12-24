@@ -1,0 +1,8 @@
+{
+  "name": "wbis",
+  "app_id": "eceb350a",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}

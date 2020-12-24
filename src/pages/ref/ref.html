@@ -1,0 +1,103 @@
+<ion-header>
+
+    <ion-navbar color="navbar">
+      <ion-title>WBIS</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content padding>
+      <ion-list class="unitList" radio-group [(ngModel)]="unit" >
+         <ion-label class="label">  <b> Select a Unit</b></ion-label>
+          <ion-row >
+            <ion-label class="label">Administrative Unit</ion-label>
+            <ion-radio checked="true" value="admin" ></ion-radio>
+          </ion-row>
+          <ion-row >
+            <ion-label class="label">Hydrological Unit</ion-label>
+            <ion-radio value="hydro" ></ion-radio>
+          </ion-row>
+        </ion-list>
+      <ion-list *ngIf="unit=='admin'"> 
+      <ion-item >
+          <ion-label ><b>Select State</b></ion-label>
+            <ion-select [(ngModel)]="State"  [selectOptions]="stateAlertOpts" (ionChange) = "show_Districts()" >
+              <ion-option  *ngFor = "let state of sState" [value]="state">{{state}}  </ion-option> 
+            </ion-select>
+       </ion-item>
+       <ion-item>
+          <ion-label ><b>Select District</b></ion-label>
+            <ion-select   [(ngModel)]="district"  [selectOptions]="distAlertOpts" (ionChange) = "show_Villages()">
+              <ion-option  *ngFor = "let district of sDistrict" [value]="district">{{district}}  </ion-option> 
+            </ion-select>
+       </ion-item>
+       <ion-item>
+          <ion-label ><b>Select Village</b></ion-label>
+            <ion-select   [(ngModel)]="village"  [selectOptions]="talukAlertOpts" >
+              <ion-option  *ngFor = "let village of sVillages" [value]="village">{{village}}  </ion-option> 
+            </ion-select>
+       </ion-item>
+
+       <button ion-button (click)="view_status()" color="navbar">View No. of Water Bodies</button>
+       <button ion-button (click)="get_nearest_wb()" color="navbar">Nearest Water Body</button>
+
+       <ion-grid class="table">
+        <ion-row>
+          <ion-label>WATER BODIES INFORMATION SYSTEM</ion-label>
+        </ion-row>
+        <ion-row> Showing Statistics of {{State}} state </ion-row>
+        <ion-row> SUMMARY </ion-row>
+        <ion-row>Total no. of Water bodies:{{numTotal}}</ion-row>
+        <ion-row>  Total Area covered by Water Bodies (in Ha): {{areaTotal | number:'.0-0'}}</ion-row>
+        <ion-row>
+          <ion-col>Waterbody Class</ion-col>
+          <ion-col>No. of Waterbodies</ion-col>
+          <ion-col>Waterbody Spread (in Ha) </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let item of statistics">
+            <ion-col>{{item.rang}}</ion-col>
+            <ion-col>{{item.num}}</ion-col>            
+            <ion-col>{{item.area | number:'.2-2'}} </ion-col>
+        </ion-row>
+
+      </ion-grid>
+      </ion-list> 
+      <ion-list *ngIf="unit=='hydro'">
+       <ion-item>
+          <ion-label  ><b>Select Basin</b></ion-label>
+            <ion-select   [(ngModel)]="basin"   (ionChange)="show_SubBasin()">
+              <ion-option  *ngFor = "let basin of Basin" [value]="basin" >{{basin.name}}  </ion-option> 
+          </ion-select>
+       </ion-item>
+       <ion-item>
+          <ion-label  ><b>Select Sub-Basin</b></ion-label>
+            <ion-select [(ngModel)]="subbasin"   >
+              <ion-option  *ngFor = "let subbasin of subBasin" [value]="subbasin.sb">{{subbasin.sb}}</ion-option> 
+          </ion-select>
+       </ion-item>
+       <button ion-button (click)="view_status_ws()"  color="navbar">View No. of Water Bodies</button>
+       <ion-grid class="table">
+        <ion-row>
+          <ion-label>WATER BODIES INFORMATION SYSTEM</ion-label>
+        </ion-row>
+        <ion-row> Showing Statistics of {{basin.name}} basin </ion-row>
+        <ion-row> SUMMARY </ion-row>
+        <ion-row>Total no. of Water bodies:{{numTotal}}</ion-row>
+        <ion-row>  Total Area covered by Water Bodies (in Ha): {{areaTotal | number:'.0-0'}}</ion-row>
+        <ion-row>
+          <ion-col>Waterbody Class</ion-col>
+          <ion-col>No. of Waterbodies</ion-col>
+          <ion-col>Waterbody Spread (in Ha) </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let item of statistics">
+            <ion-col>{{item.rang}}</ion-col>
+            <ion-col>{{item.num}}</ion-col>            
+            <ion-col>{{item.area | number:'.2-2'}} </ion-col>
+        </ion-row>
+
+      </ion-grid>
+      </ion-list>
+   
+  </ion-content>
+  
